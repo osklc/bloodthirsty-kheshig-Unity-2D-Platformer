@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public float attackRate = 2f;
     private float nextAttackTime = 0f;
+    private bool isFacingRight = true;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();    
@@ -28,6 +29,15 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (moveInput > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (moveInput <0 && isFacingRight)
+        {
+            Flip();
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -59,6 +69,15 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Vurulan Dusman: " + enemy.name);
         }
+    }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
     }
 
     void OnDrawGizmosSelected()
