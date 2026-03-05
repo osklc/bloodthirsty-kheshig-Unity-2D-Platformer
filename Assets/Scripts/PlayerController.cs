@@ -67,13 +67,18 @@ public class PlayerController : MonoBehaviour
 
         foreach(Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Vurulan Dusman: " + enemy.name);
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(attackDamage, transform);
+            }
         }
     }
 
     private void Flip()
     {
-        isFacingRight = !isFacingRight;
+        isFacingRight = !isFacingRight; 
 
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
